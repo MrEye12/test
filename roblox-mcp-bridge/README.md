@@ -20,30 +20,46 @@ Deshalb enthält die URL einen **langen geheimen Token**.
 
 ## Einmalig: Server (blackair.dev)
 
-1. **DNS:** A-Record `mcp.blackair.dev` → IP deines Servers.
-2. **Token erzeugen:**
+Halte dich an diese Reihenfolge, denn die finale Config lädt erst, wenn das Zertifikat existiert.
+
+1. **DNS in Cloudflare:** A-Record, Name `mcp`, IP deines Servers, **Proxy status: Proxied (orange Wolke)**.
+   Nicht „DNS only“ (graue Wolke) wählen: Wenn dein Server auf 80/443 nur Cloudflare-IPs reinlässt,
+   verwirft er sonst den certbot-Check und jeden Request, und du bekommst nur Timeouts.
+2. **Übergangs-Config (nur Port 80):**
+   ```bash
+   sudo cp nginx-mcp-bootstrap.conf /etc/nginx/sites-available/mcp.blackair.dev.conf
+   sudo ln -s /etc/nginx/sites-available/mcp.blackair.dev.conf /etc/nginx/sites-enabled/
+   sudo nginx -t && sudo systemctl reload nginx
+   ```
+3. **Zertifikat holen:**
+   ```bash
+   sudo certbot certonly --nginx -d mcp.blackair.dev
+   ```
+4. **Token erzeugen** und gut aufheben:
    ```bash
    openssl rand -hex 24
    ```
-3. **nginx-Config:** Kopiere `nginx-mcp.blackair.dev.conf` nach `/etc/nginx/sites-available/` und ersetze `GEHEIM_ERSETZEN` durch den Token.
+5. **Finale Config:** Ersetze in `nginx-mcp.blackair.dev.conf` den Platzhalter `GEHEIM_ERSETZEN` durch den Token und überschreibe damit die Übergangs-Config:
    ```bash
-   sudo ln -s /etc/nginx/sites-available/nginx-mcp.blackair.dev.conf /etc/nginx/sites-enabled/
-   sudo certbot --nginx -d mcp.blackair.dev
+   sudo cp nginx-mcp.blackair.dev.conf /etc/nginx/sites-available/mcp.blackair.dev.conf
    sudo nginx -t && sudo systemctl reload nginx
    ```
-   Tipp: Wenn certbot meckert, weil das Zertifikat noch fehlt, kommentiere den
-   443-Block kurz aus, hol das Zertifikat und aktiviere den Block dann wieder.
 
 Port 8808 muss **nicht** in der Firewall geöffnet werden, weil der Tunnel nur auf `127.0.0.1` lauscht.
+Das setzt voraus, dass in `sshd` die Option `GatewayPorts no` gilt (Standard). Prüfen kannst du das mit `sudo sshd -T | grep gatewayports`.
 
 ## Einmalig: Dein PC
 
 1. Installiere **Node.js** (https://nodejs.org).
 2. Richte das **Roblox Studio MCP** nach der Anleitung von Roblox ein und aktiviere das Plugin in Studio.
 3. Trage in `start-bridge.ps1` diese Werte ein:
-   - `$RobloxMcpCommand`: der Befehl, der den Roblox MCP im stdio-Modus startet
-   - `$ServerLogin`: dein SSH-Login, z. B. `root@blackair.dev`
+   - `$RobloxMcpExe`: der Pfad zur Roblox-MCP-Exe
+   - `$ServerLogin`: dein **SSH-Alias** aus `~/.ssh/config` (Standard: `blackair`) mit der **echten Server-IP**.
+     `user@blackair.dev` geht nicht, weil die Domain auf Cloudflare zeigt und Cloudflare Port 22 nicht weiterleitet.
 4. Am besten richtest du einen SSH-Key ein, damit der Tunnel ohne Passwort läuft.
+
+Das Skript prüft vor dem Start, ob die Exe existiert, ob Port 8808 frei ist und ob npx da ist.
+Den SSH-Tunnel öffnet es erst, wenn supergateway wirklich lauscht.
 
 ## Jedes Mal: Brücke starten
 
@@ -81,6 +97,7 @@ Netzwerk-Einstellungen der Cloud-Umgebung (Umgebungsmenü oben in der Session �
 
 | Problem | Lösung |
 |---|---|
+| Timeout, keine Antwort | Der DNS-Record steht vermutlich auf „DNS only“, und die Firewall lässt nur Cloudflare durch. Stell ihn auf „Proxied“ um. |
 | `502 Bad Gateway` | Tunnel oder supergateway läuft nicht. Prüfe, ob beide Fenster offen sind. |
 | `404` | Der Pfad bzw. Token in der URL passt nicht zur nginx-Config. |
 | `remote port forwarding failed` | Port 8808 ist auf dem Server noch belegt, z. B. durch einen alten Tunnel. Warte kurz oder beende den alten SSH-Prozess. |
