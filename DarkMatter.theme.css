@@ -1,7 +1,7 @@
 /**
  * @name Dark Matter Mono
  * @author Julia
- * @version 4.4.0
+ * @version 4.5.0
  * @description Schwarz-weiß, clean, smoothe Animationen. Ändert nur Farben & Effekte, nicht das Layout (nichts verrutscht).
 */
 
@@ -178,12 +178,7 @@ button:active,
     from { opacity: 0; transform: translateY(6px); }
     to   { opacity: 1; transform: translateY(0); }
 }
-[class*="messageListItem_"] {
-    animation: dm-fade-in 0.35s var(--dm-ease);
-}
-[class*="message_"] {
-    transition: background-color var(--dm-fast) var(--dm-ease) !important;
-}
+
 
 /* Popouts, Menüs, Modals: sanftes Reinzoomen + dezenter Glow */
 @keyframes dm-pop {
@@ -191,8 +186,6 @@ button:active,
     to   { opacity: 1; transform: scale(1) translateY(0); }
 }
 [class*="menu_"],
-[class*="popout_"],
-[class*="layer_"] > [class*="root_"],
 [class*="modal_"] {
     animation: dm-pop 0.22s var(--dm-ease);
     border: 1px solid var(--dm-line);
@@ -225,37 +218,10 @@ button:active,
    ========================================================== */
 
 /* ---- Home-Button (Discord-Logo): schwarz-weiß statt blau ---- */
-[class*="listItem_"] [class*="circleIconButton_"],
-[class*="listItem_"] [class*="childWrapper_"] {
-    background: var(--dm-bg-3) !important;
-    color: #fff !important;
-    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.10);
-    transition: background-color var(--dm-med) var(--dm-ease),
-                box-shadow var(--dm-med) var(--dm-ease),
-                border-radius var(--dm-med) var(--dm-ease),
-                transform var(--dm-med) var(--dm-ease) !important;
-}
-[class*="listItem_"] [class*="circleIconButton_"] svg,
-[class*="listItem_"] [class*="childWrapper_"] svg {
-    fill: #fff;
-    color: #fff;
-    transition: fill var(--dm-med) var(--dm-ease), color var(--dm-med) var(--dm-ease);
-}
+
+
 /* Hover & ausgewählt: weiße Füllung, schwarzes Logo */
-[class*="listItem_"]:hover [class*="circleIconButton_"],
-[class*="listItem_"] [class*="circleIconButton_"][class*="selected"],
-[class*="listItem_"]:hover [class*="childWrapper_"]:has(svg),
-[class*="listItem_"] [class*="childWrapper_"][class*="selected"]:has(svg) {
-    background: #fff !important;
-    box-shadow: 0 0 22px rgba(255, 255, 255, 0.35);
-}
-[class*="listItem_"]:hover [class*="circleIconButton_"] svg,
-[class*="listItem_"] [class*="circleIconButton_"][class*="selected"] svg,
-[class*="listItem_"]:hover [class*="childWrapper_"]:has(svg) svg,
-[class*="listItem_"] [class*="childWrapper_"][class*="selected"]:has(svg) svg {
-    fill: #000;
-    color: #000;
-}
+
 
 /* ---- Server-Icons: weißer Glow beim Hover ---- */
 [class*="listItem_"]:hover img[class*="icon_"] {
@@ -287,7 +253,6 @@ button:active,
 
 /* ---- Glas-Effekt (Blur) für Menüs, Popouts, Tooltips ---- */
 [class*="menu_"],
-[class*="popout_"],
 [class*="tooltip_"] {
     background: rgba(12, 12, 12, 0.78) !important;
     backdrop-filter: blur(18px) saturate(1.2);
@@ -303,11 +268,7 @@ button:active,
     from { opacity: 0; }
     to   { opacity: 1; }
 }
-[class*="backdrop_"] {
-    background: rgba(0, 0, 0, 0.75) !important;
-    backdrop-filter: blur(6px);
-    animation: dm-backdrop 0.25s ease;
-}
+
 
 /* ---- Ausgewählter Channel / DM: weißer Balken links + sanfter Hintergrund ---- */
 [class*="modeSelected_"],
@@ -395,10 +356,7 @@ button:active,
 }
 
 /* ---- Smooth Scrolling ---- */
-[class*="scroller_"],
-[class*="scrollerBase_"] {
-    scroll-behavior: smooth;
-}
+
 
 /* ---- Sektions-Header (z.B. "Direct Messages"): kleine, edle Caps ---- */
 [class*="headerText_"],
@@ -537,10 +495,7 @@ body {
 }
 
 /* ---- Chat blendet beim Channel-Wechsel weich ein ---- */
-[class*="messagesWrapper_"],
-[class*="chatContent_"] [class*="content_"] {
-    animation: dm-fade-in 0.4s var(--dm-ease);
-}
+
 
 /* ---- Sprechen im Voice: weißer Glow um den Avatar ---- */
 @keyframes dm-speak {
@@ -561,14 +516,7 @@ body {
     border: none !important;
     box-shadow: none !important;
 }
-[class*="title_"][class*="container_"],
-[class*="toolbar_"],
-[class*="subtitleContainer_"],
-[class*="header_"][class*="container_"] {
-    box-shadow: none !important;
-    border-bottom: 1px solid var(--dm-line) !important;
-    background: transparent !important;
-}
+
 
 /* ---- Smoothe Details ---- */
 [class*="memberInner_"] [class*="avatar_"] {
@@ -633,27 +581,8 @@ input, textarea {
 }
 
 /* ---- Emoji / GIF / Sticker Picker ---- */
-[class*="emojiPicker_"],
-[class*="gifPicker_"],
-[class*="stickerPicker_"],
-[class*="expressionPicker"],
-[class*="drawerSizingWrapper_"] {
-    background: rgba(12, 12, 12, 0.92) !important;
-    border: 1px solid var(--dm-line) !important;
-    border-radius: 14px !important;
-    overflow: hidden;
-}
-[class*="emojiPicker_"] [class*="inputWrapper_"],
-[class*="gifPicker_"] [class*="inputWrapper_"],
-[class*="stickerPicker_"] [class*="inputWrapper_"],
-[class*="expressionPicker"] [class*="inputWrapper_"] {
-    background: rgba(255, 255, 255, 0.05) !important;
-    border: 1px solid var(--dm-line) !important;
-    border-radius: 10px !important;
-    box-shadow: none !important;
-    transition: border-color var(--dm-med) var(--dm-ease),
-                background-color var(--dm-med) var(--dm-ease);
-}
+
+
 [class*="inputWrapper_"]:focus-within {
     border-color: rgba(255, 255, 255, 0.55) !important;
     background: rgba(255, 255, 255, 0.07) !important;
@@ -675,25 +604,93 @@ input, textarea {
     box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.25);
 }
 /* Preview-Leiste unten im Picker */
-[class*="emojiPicker_"] [class*="footer_"],
-[class*="emojiPicker_"] [class*="emojiPickerFooter"],
-[class*="expressionPicker"] [class*="footer_"] {
-    background: rgba(255, 255, 255, 0.03) !important;
-    border-top: 1px solid var(--dm-line) !important;
-}
+
 /* Tabs (GIFs / Stickers / Emoji): ausgewählt = weiße Pille */
-[class*="expressionPicker"] [class*="navItem_"][class*="selected"],
-[class*="expressionPicker"] [class*="navButton_"][class*="selected"] {
-    background: rgba(255, 255, 255, 0.12) !important;
-    border-radius: 8px !important;
-    color: #fff !important;
-}
+
 
 /* ---- Dünne, abgerundete Outline: NUR Channel-Leiste & Chat ---- */
+
+
+
+/* ==========================================================
+   v4.5 — BUGFIXES (Scroll-Teleport, Emoji-Picker, Icons, Rand)
+   Entfernt: Smooth-Scroll & Animationen auf Nachrichten,
+   Backdrop-Dimmung, breite Home-/Picker-/Header-Regeln.
+   ========================================================== */
+
+/* ---- Home-Button (nur der, per fester ID) ---- */
+[data-list-item-id="guildsnav___home"] [class*="childWrapper_"] {
+    background-color: var(--dm-bg-3) !important;
+    color: #fff !important;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.10);
+    transition: background-color var(--dm-med) var(--dm-ease),
+                box-shadow var(--dm-med) var(--dm-ease),
+                color var(--dm-med) var(--dm-ease);
+}
+[data-list-item-id="guildsnav___home"] svg {
+    fill: currentColor;
+}
+[data-list-item-id="guildsnav___home"]:hover [class*="childWrapper_"],
+[data-list-item-id="guildsnav___home"] [class*="childWrapper_"][class*="selected"] {
+    background-color: #fff !important;
+    color: #000 !important;
+    box-shadow: 0 0 22px rgba(255, 255, 255, 0.3);
+}
+
+/* ---- Eingabefeld: Rand + Lichtstrahl um das GANZE Feld (inkl. Buttons rechts) ---- */
+[class*="scrollableContainer_"] {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    animation: none !important;
+    overflow: visible !important;
+}
+[class*="channelTextArea_"] {
+    border: 1px solid transparent !important;
+    border-radius: 14px !important;
+    background:
+        linear-gradient(#0d0d0d, #0d0d0d) padding-box,
+        linear-gradient(var(--dm-line), var(--dm-line)) border-box !important;
+    transition: box-shadow var(--dm-med) var(--dm-ease);
+}
+[class*="channelTextArea_"]:focus-within {
+    background:
+        linear-gradient(#0d0d0d, #0d0d0d) padding-box,
+        conic-gradient(from var(--dm-angle),
+            rgba(255,255,255,0.08) 0%,
+            rgba(255,255,255,0.9) 12%,
+            rgba(255,255,255,0.08) 28%,
+            rgba(255,255,255,0.08) 100%) border-box !important;
+    animation: dm-spin 3.5s linear infinite;
+    box-shadow: 0 0 24px rgba(255, 255, 255, 0.07);
+}
+
+/* ---- Emoji/GIF/Sticker-Suche: Fokus weiß statt blau (keine Box-Umbauten) ---- */
+[class*="searchBar_"]:focus-within,
+[class*="inputWrapper_"]:focus-within,
+[class*="searchBar_"][class*="focused"],
+[class*="inputWrapper_"][class*="focused"] {
+    border-color: rgba(255, 255, 255, 0.55) !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+input:focus,
+textarea:focus {
+    outline: none !important;
+}
+
+/* ---- Dünner Rand um Channel-Leiste & Chat — als Overlay, ohne Layout-Eingriff ---- */
 div[class*="sidebar_"],
 section[class*="chat_"] {
-    border: 1px solid rgba(255, 255, 255, 0.14) !important;
-    border-radius: 14px !important;
-    overflow: hidden;
-    box-shadow: none !important;
+    position: relative;
+}
+div[class*="sidebar_"]::after,
+section[class*="chat_"]::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 14px;
+    pointer-events: none;
+    z-index: 5;
 }
