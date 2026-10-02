@@ -1,7 +1,7 @@
 /**
  * @name Dark Matter Mono
  * @author Julia
- * @version 4.1.0
+ * @version 4.2.0
  * @description Schwarz-weiß, clean, smoothe Animationen. Ändert nur Farben & Effekte, nicht das Layout (nichts verrutscht).
 */
 
@@ -197,16 +197,6 @@ button:active,
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7) !important;
 }
 
-/* Eingabefeld: weißer Fokus-Ring */
-[class*="channelTextArea_"] {
-    border: 1px solid var(--dm-line);
-    transition: border-color var(--dm-med) var(--dm-ease),
-                box-shadow var(--dm-med) var(--dm-ease);
-}
-[class*="channelTextArea_"]:focus-within {
-    border-color: rgba(255, 255, 255, 0.45);
-    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.06);
-}
 
 /* Trennlinien dezent */
 [class*="divider_"] {
@@ -334,11 +324,6 @@ button:active,
     border-radius: 8px;
 }
 
-/* ---- Eingabefeld: runder, mit Glas-Look ---- */
-[class*="channelTextArea_"] {
-    border-radius: 14px !important;
-    background: rgba(255, 255, 255, 0.04) !important;
-}
 
 /* ---- Nachrichten ---- */
 [class*="message_"]:hover {
@@ -453,4 +438,57 @@ button:active,
 [class*="bar_"][class*="slider"],
 [class*="grabber_"] {
     background: #fff !important;
+}
+
+
+/* ==========================================================
+   v4.2 — BUGFIXES
+   ========================================================== */
+
+/* ---- Weiße Balken: Bereiche, die Discord mit der Markenfarbe füllt ---- */
+[class*="bannerImage_"],
+[class*="bannerImg_"],
+[class*="animatedContainer_"],
+[class*="headerImage_"],
+[class*="bannerSizer_"],
+[class*="guildBanner_"],
+[class*="progressBar_"],
+[class*="premiumGuildBanner_"] {
+    background-color: var(--dm-bg-2) !important;
+}
+[class*="panels_"] > div,
+[class*="panels_"] [class*="wrapper_"]:not([class*="avatarWrapper_"]),
+[class*="panels_"] [class*="rtcConnectionStatus"],
+[class*="panels_"] [class*="connection_"] {
+    background-color: transparent !important;
+}
+/* Nichts im Panel darf komplett weiß gefüllt sein */
+[class*="panels_"] [style*="background-color: rgb(255, 255, 255)"],
+[class*="panels_"] [style*="background-color: #fff"] {
+    background-color: transparent !important;
+}
+
+/* ---- Eingabefeld: EIN sauberer abgerundeter Container ---- */
+[class*="channelTextArea_"],
+[class*="textArea_"],
+[class*="inner_"][class*="sansAttachButton"],
+[class*="innerNoAutocomplete_"] {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 14px !important;
+}
+[class*="scrollableContainer_"] {
+    background: rgba(255, 255, 255, 0.04) !important;
+    border: 1px solid var(--dm-line) !important;
+    border-radius: 14px !important;
+    overflow: hidden;
+    transition: border-color var(--dm-med) var(--dm-ease),
+                box-shadow var(--dm-med) var(--dm-ease),
+                background-color var(--dm-med) var(--dm-ease);
+}
+[class*="scrollableContainer_"]:focus-within {
+    border-color: rgba(255, 255, 255, 0.45) !important;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.06) !important;
 }
