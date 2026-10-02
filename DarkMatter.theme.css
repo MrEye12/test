@@ -1,7 +1,7 @@
 /**
  * @name Dark Matter Mono
  * @author Julia
- * @version 4.6.0
+ * @version 4.7.0
  * @description Schwarz-weiß, clean, smoothe Animationen. Ändert nur Farben & Effekte, nicht das Layout (nichts verrutscht).
 */
 
@@ -568,7 +568,7 @@ input, textarea {
 [class*="channelTextArea_"] [class*="buttons_"] *,
 [class*="channelTextArea_"] button,
 [class*="channelTextArea_"] [role="button"] {
-    background: transparent !important;
+    background-color: transparent !important;
     border: none !important;
     box-shadow: none !important;
     backdrop-filter: none !important;
@@ -576,7 +576,7 @@ input, textarea {
 }
 [class*="channelTextArea_"] button:hover,
 [class*="channelTextArea_"] [role="button"]:hover {
-    background: rgba(255, 255, 255, 0.08) !important;
+    background-color: rgba(255, 255, 255, 0.08) !important;
     border-radius: 8px;
 }
 
@@ -778,4 +778,99 @@ div:has(> div > input:focus),
     opacity: 1 !important;
     position: relative;
     z-index: 1;
+}
+
+
+/* ==========================================================
+   v4.7
+   ========================================================== */
+
+/* ---- Eingabefeld: Emoji-Button wieder sichtbar (Bild nicht überschreiben) ---- */
+[class*="channelTextArea_"] [class*="buttons_"] *,
+[class*="channelTextArea_"] button {
+    background-image: revert-layer;
+}
+
+/* ---- Weiße Buttons: Schrift immer schwarz (Profil-Popout, Dialoge, ...) ---- */
+.theme-dark, .theme-darker, .theme-light, .theme-midnight {
+    --button-filled-brand-background: #ffffff !important;
+    --button-filled-brand-background-hover: #e6e6e6 !important;
+    --button-filled-brand-background-active: #cfcfcf !important;
+    --button-filled-brand-text: #000000 !important;
+    --button-filled-brand-text-hover: #000000 !important;
+    --button-filled-brand-text-active: #000000 !important;
+    --button-filled-brand-border: transparent !important;
+    --white: #ffffff !important;
+}
+button[class*="colorBrand"],
+button[class*="colorBrand"] *,
+[role="button"][class*="colorBrand"],
+[role="button"][class*="colorBrand"] *,
+button[class*="lookFilled"][class*="Brand"],
+button[class*="lookFilled"][class*="Brand"] *,
+button[class*="primary"]:not([class*="Outline"]):not([class*="secondary"]),
+button[class*="primary"]:not([class*="Outline"]):not([class*="secondary"]) * {
+    color: #000 !important;
+}
+
+/* ---- Links: erkennbar (unterstrichen) ---- */
+a,
+[class*="anchor_"],
+[class*="markup_"] a {
+    color: #ffffff !important;
+    text-decoration: underline !important;
+    text-decoration-color: rgba(255, 255, 255, 0.35) !important;
+    text-decoration-thickness: 1px !important;
+    text-underline-offset: 3px !important;
+    transition: text-decoration-color var(--dm-fast) var(--dm-ease),
+                opacity var(--dm-fast) var(--dm-ease);
+}
+a:hover,
+[class*="anchor_"]:hover,
+[class*="markup_"] a:hover {
+    text-decoration-color: #ffffff !important;
+}
+/* Ausnahmen: Server-/Channel-/Menü-Links bekommen keine Unterstreichung */
+nav a, [class*="guilds_"] a, [class*="sidebar_"] a, [class*="menu_"] a,
+[class*="tabBar_"] a, [class*="avatar_"] a, [class*="listItem_"] a {
+    text-decoration: none !important;
+}
+
+/* ---- Call-Panel (Voice Connected): Icons sichtbar ---- */
+[class*="panels_"] button,
+[class*="panels_"] [role="button"] {
+    color: #e6e6e6 !important;
+}
+[class*="panels_"] button svg,
+[class*="panels_"] [role="button"] svg {
+    color: #e6e6e6 !important;
+    opacity: 1 !important;
+}
+[class*="panels_"] [class*="actionButtons_"] button,
+[class*="panels_"] [class*="actionButtons_"] [role="button"] {
+    background-color: rgba(255, 255, 255, 0.07) !important;
+    border: 1px solid var(--dm-line) !important;
+    border-radius: 10px !important;
+    transition: background-color var(--dm-fast) var(--dm-ease);
+}
+[class*="panels_"] [class*="actionButtons_"] button:hover {
+    background-color: rgba(255, 255, 255, 0.14) !important;
+}
+
+/* ---- DM-/Channel-Zeile: Hover & Auswahl nie komplett weiß ---- */
+.theme-dark, .theme-darker, .theme-light, .theme-midnight {
+    --background-mod-subtle: rgba(255, 255, 255, 0.05) !important;
+    --background-mod-normal: rgba(255, 255, 255, 0.08) !important;
+    --background-mod-muted: rgba(255, 255, 255, 0.10) !important;
+    --background-mod-strong: rgba(255, 255, 255, 0.14) !important;
+}
+[class*="privateChannel_"]:hover,
+[class*="privateChannel_"][class*="selected"],
+[class*="channel_"][class*="selected"],
+[class*="channel_"]:hover {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+}
+[class*="privateChannel_"]:hover *,
+[class*="privateChannel_"][class*="selected"] * {
+    color: #ffffff !important;
 }
