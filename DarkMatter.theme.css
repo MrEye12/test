@@ -1,7 +1,7 @@
 /**
  * @name Dark Matter Mono
  * @author Julia
- * @version 4.2.0
+ * @version 4.3.0
  * @description Schwarz-weiß, clean, smoothe Animationen. Ändert nur Farben & Effekte, nicht das Layout (nichts verrutscht).
 */
 
@@ -22,6 +22,8 @@
 }
 
 /* ===== Farben: überschreibt Discords eigene Variablen ===== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 .theme-dark,
 .theme-darker,
 .theme-light,
@@ -491,4 +493,101 @@ button:active,
     border-color: rgba(255, 255, 255, 0.45) !important;
     box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.06);
     background: rgba(255, 255, 255, 0.06) !important;
+}
+
+
+/* ==========================================================
+   v4.3 — EXTRAS
+   ========================================================== */
+
+/* ---- Schrift: Inter ---- */
+.theme-dark, .theme-darker, .theme-light, .theme-midnight {
+    --font-primary: 'Inter', 'gg sans', 'Segoe UI', sans-serif !important;
+    --font-display: 'Inter', 'gg sans', 'Segoe UI', sans-serif !important;
+}
+body {
+    font-family: 'Inter', 'gg sans', 'Segoe UI', sans-serif !important;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ---- Eingabefeld: wandernder weißer Lichtstrahl beim Fokus ---- */
+@property --dm-angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+}
+@keyframes dm-spin {
+    to { --dm-angle: 360deg; }
+}
+[class*="scrollableContainer_"] {
+    border: 1px solid transparent !important;
+    background:
+        linear-gradient(#0d0d0d, #0d0d0d) padding-box,
+        linear-gradient(var(--dm-line), var(--dm-line)) border-box !important;
+}
+[class*="scrollableContainer_"]:focus-within {
+    background:
+        linear-gradient(#0d0d0d, #0d0d0d) padding-box,
+        conic-gradient(from var(--dm-angle),
+            rgba(255,255,255,0.08) 0%,
+            rgba(255,255,255,0.9) 12%,
+            rgba(255,255,255,0.08) 28%,
+            rgba(255,255,255,0.08) 100%) border-box !important;
+    animation: dm-spin 3.5s linear infinite;
+    box-shadow: 0 0 24px rgba(255, 255, 255, 0.07);
+}
+
+/* ---- Chat blendet beim Channel-Wechsel weich ein ---- */
+[class*="messagesWrapper_"],
+[class*="chatContent_"] [class*="content_"] {
+    animation: dm-fade-in 0.4s var(--dm-ease);
+}
+
+/* ---- Sprechen im Voice: weißer Glow um den Avatar ---- */
+@keyframes dm-speak {
+    0%, 100% { box-shadow: 0 0 0 2px #fff, 0 0 10px rgba(255,255,255,0.5); }
+    50%      { box-shadow: 0 0 0 2px #fff, 0 0 20px rgba(255,255,255,0.85); }
+}
+[class*="avatarSpeaking_"],
+[class*="speaking_"] [class*="avatar_"],
+[class*="speaking_"] > [class*="avatar"] {
+    border-radius: 50%;
+    animation: dm-speak 1.2s ease-in-out infinite;
+}
+
+/* ---- Dünne Linien statt Kästen ---- */
+[class*="sidebar_"],
+[class*="members_"],
+[class*="membersWrap_"] {
+    border: none !important;
+    box-shadow: none !important;
+}
+[class*="members_"],
+[class*="membersWrap_"] {
+    border-left: 1px solid var(--dm-line) !important;
+}
+[class*="sidebar_"] {
+    border-right: 1px solid var(--dm-line) !important;
+}
+[class*="title_"][class*="container_"],
+[class*="toolbar_"],
+[class*="subtitleContainer_"],
+[class*="header_"][class*="container_"] {
+    box-shadow: none !important;
+    border-bottom: 1px solid var(--dm-line) !important;
+    background: transparent !important;
+}
+
+/* ---- Smoothe Details ---- */
+[class*="memberInner_"] [class*="avatar_"] {
+    transition: transform var(--dm-med) var(--dm-ease);
+}
+[class*="memberInner_"]:hover [class*="avatar_"] {
+    transform: scale(1.06);
+}
+a, [class*="anchor_"] {
+    transition: color var(--dm-fast) var(--dm-ease), opacity var(--dm-fast) var(--dm-ease);
+}
+input, textarea {
+    caret-color: #fff;
 }
