@@ -5,6 +5,8 @@
  * @description Schwarz-weiß, clean, smoothe Animationen. Ändert nur Farben & Effekte, nicht das Layout (nichts verrutscht).
 */
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 :root {
     --dm-black: #000000;
     --dm-bg-0: #050505;
@@ -22,8 +24,6 @@
 }
 
 /* ===== Farben: überschreibt Discords eigene Variablen ===== */
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 .theme-dark,
 .theme-darker,
 .theme-light,
