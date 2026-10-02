@@ -1,7 +1,7 @@
 /**
  * @name Dark Matter Mono
  * @author Julia
- * @version 4.3.0
+ * @version 4.4.0
  * @description Schwarz-weiß, clean, smoothe Animationen. Ändert nur Farben & Effekte, nicht das Layout (nichts verrutscht).
 */
 
@@ -382,8 +382,7 @@ button:active,
 }
 
 /* Hover-Toolbar an Nachrichten */
-[class*="buttonContainer_"] [class*="buttons_"],
-[class*="buttonContainer_"] > div {
+[class*="messageListItem_"] [class*="buttonContainer_"] [class*="buttons_"] {
     border-radius: 10px;
     background: rgba(18, 18, 18, 0.85);
     backdrop-filter: blur(10px);
@@ -562,13 +561,6 @@ body {
     border: none !important;
     box-shadow: none !important;
 }
-[class*="members_"],
-[class*="membersWrap_"] {
-    border-left: 1px solid var(--dm-line) !important;
-}
-[class*="sidebar_"] {
-    border-right: 1px solid var(--dm-line) !important;
-}
 [class*="title_"][class*="container_"],
 [class*="toolbar_"],
 [class*="subtitleContainer_"],
@@ -590,4 +582,118 @@ a, [class*="anchor_"] {
 }
 input, textarea {
     caret-color: #fff;
+}
+
+
+/* ==========================================================
+   v4.4 — FEINSCHLIFF
+   ========================================================== */
+
+/* ---- Fokus-Farbe überall weiß statt blau ---- */
+.theme-dark, .theme-darker, .theme-light, .theme-midnight {
+    --border-focus: rgba(255, 255, 255, 0.6) !important;
+    --input-border-focus: rgba(255, 255, 255, 0.6) !important;
+    --control-brand-foreground: #fff !important;
+    --control-brand-foreground-new: #fff !important;
+}
+
+/* ---- Weiße Notice-Leisten (z.B. oben im Chat): dunkel mit dünnem Rand ---- */
+[class*="notice_"],
+[class*="newMessagesBar_"],
+[class*="jumpToPresentBar_"],
+[class*="noticeRegion_"] > div,
+[class*="colorBrand_"][class*="container_"][class*="notice"],
+[class*="notice_"][class*="colorBrand"] {
+    background-color: var(--dm-bg-2) !important;
+    color: var(--dm-text) !important;
+    border: 1px solid var(--dm-line) !important;
+    border-radius: 12px;
+}
+[class*="notice_"] *,
+[class*="newMessagesBar_"] *,
+[class*="jumpToPresentBar_"] * {
+    color: var(--dm-text) !important;
+}
+
+/* ---- Buttons im Eingabefeld: keine Kästen, nur Icons ---- */
+[class*="channelTextArea_"] [class*="buttons_"],
+[class*="channelTextArea_"] [class*="buttons_"] *,
+[class*="channelTextArea_"] button,
+[class*="channelTextArea_"] [role="button"] {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+[class*="channelTextArea_"] button:hover,
+[class*="channelTextArea_"] [role="button"]:hover {
+    background: rgba(255, 255, 255, 0.08) !important;
+    border-radius: 8px;
+}
+
+/* ---- Emoji / GIF / Sticker Picker ---- */
+[class*="emojiPicker_"],
+[class*="gifPicker_"],
+[class*="stickerPicker_"],
+[class*="expressionPicker"],
+[class*="drawerSizingWrapper_"] {
+    background: rgba(12, 12, 12, 0.92) !important;
+    border: 1px solid var(--dm-line) !important;
+    border-radius: 14px !important;
+    overflow: hidden;
+}
+[class*="emojiPicker_"] [class*="inputWrapper_"],
+[class*="gifPicker_"] [class*="inputWrapper_"],
+[class*="stickerPicker_"] [class*="inputWrapper_"],
+[class*="expressionPicker"] [class*="inputWrapper_"] {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid var(--dm-line) !important;
+    border-radius: 10px !important;
+    box-shadow: none !important;
+    transition: border-color var(--dm-med) var(--dm-ease),
+                background-color var(--dm-med) var(--dm-ease);
+}
+[class*="inputWrapper_"]:focus-within {
+    border-color: rgba(255, 255, 255, 0.55) !important;
+    background: rgba(255, 255, 255, 0.07) !important;
+    box-shadow: none !important;
+}
+/* Emoji-Felder: weiches Hover + Auswahl in Weiß */
+[class*="emojiItem_"],
+[class*="result_"][class*="emoji"],
+[class*="categoryItem_"] {
+    border-radius: 8px !important;
+    transition: transform var(--dm-fast) var(--dm-ease),
+                background-color var(--dm-fast) var(--dm-ease);
+}
+[class*="emojiItem_"]:hover,
+[class*="emojiItemSelected"] {
+    background: rgba(255, 255, 255, 0.10) !important;
+    transform: scale(1.12);
+    outline: none !important;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.25);
+}
+/* Preview-Leiste unten im Picker */
+[class*="emojiPicker_"] [class*="footer_"],
+[class*="emojiPicker_"] [class*="emojiPickerFooter"],
+[class*="expressionPicker"] [class*="footer_"] {
+    background: rgba(255, 255, 255, 0.03) !important;
+    border-top: 1px solid var(--dm-line) !important;
+}
+/* Tabs (GIFs / Stickers / Emoji): ausgewählt = weiße Pille */
+[class*="expressionPicker"] [class*="navItem_"][class*="selected"],
+[class*="expressionPicker"] [class*="navButton_"][class*="selected"] {
+    background: rgba(255, 255, 255, 0.12) !important;
+    border-radius: 8px !important;
+    color: #fff !important;
+}
+
+/* ---- Dünne, abgerundete Outline: NUR Channel-Leiste & Chat ---- */
+div[class*="sidebar_"],
+section[class*="chat_"] {
+    border: 1px solid rgba(255, 255, 255, 0.14) !important;
+    border-radius: 14px !important;
+    overflow: hidden;
+    box-shadow: none !important;
 }
