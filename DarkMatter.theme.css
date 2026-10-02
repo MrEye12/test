@@ -1,0 +1,146 @@
+/**
+ * @name Dark Matter (Fixed)
+ * @author Tropical#8908, Hammock#3110 (Fixes: Claude)
+ * @version 3.0.1
+ * @description A cold, dark & frosty theme. Fixes: dicke Scrollbar, kleine/verschobene Server-Icons.
+ * @source https://github.com/DiscordStyles/DarkMatter/
+*/
+
+@import url('https://DiscordStyles.github.io/DarkMatter/src/base.css');
+
+/* Variables */
+:root {
+    --avatar-size: 32px;
+    --background-image: url('https://i.imgur.com/7SbtKvw.png');
+    --home-image: url('https://i.imgur.com/233d55Y.gif');
+    --background-solid: #161921;
+    --background-solid-dark: #101218;
+    --background-solid-darker: #0c0e12;
+    --accent: 37, 172, 232;
+    --accent-alt: 29, 101, 134;
+}
+
+/* ==========================================================
+   FIXES (kommen NACH dem Import, damit sie gewinnen)
+   Selektoren nutzen [class*="..."], weil Discord die Klassen-
+   Namen mit Hash-Suffix bei jedem Update ändert.
+   ========================================================== */
+
+/* ---- 1) Scrollbar: dünn statt fett ---- */
+::-webkit-scrollbar {
+    width: 8px !important;
+    height: 8px !important;
+}
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-track-piece {
+    background: transparent !important;
+    border: none !important;
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(var(--accent), 0.35) !important;
+    border: 2px solid transparent !important;
+    background-clip: padding-box !important;
+    border-radius: 8px !important;
+    min-height: 40px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(var(--accent), 0.7) !important;
+    background-clip: padding-box !important;
+}
+::-webkit-scrollbar-corner {
+    background: transparent !important;
+}
+/* Server-Liste braucht keine sichtbare Scrollbar */
+nav[class*="wrapper_"] [class*="scroller_"]::-webkit-scrollbar,
+[class*="guilds_"] [class*="scroller_"]::-webkit-scrollbar {
+    width: 0 !important;
+    display: none !important;
+}
+
+/* ---- 2) Server-Leiste: feste Breite, Icons 48px ---- */
+nav[class*="wrapper_"],
+[class*="guilds_"] {
+    width: 72px !important;
+    min-width: 72px !important;
+    padding: 0 !important;
+}
+[class*="guilds_"] [class*="scroller_"],
+nav[class*="wrapper_"] [class*="scroller_"] {
+    width: 72px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* Jeder Eintrag (Server, Home, Ordner) */
+[class*="listItem_"] {
+    width: 72px !important;
+    height: 48px !important;
+    margin: 0 0 8px 0 !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    position: relative !important;
+}
+[class*="listItem_"] [class*="wrapper_"],
+[class*="listItem_"] [class*="blobContainer_"],
+[class*="listItem_"] [class*="childWrapper_"] {
+    width: 48px !important;
+    height: 48px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    transform: none !important;
+    top: 0 !important;
+    left: 0 !important;
+}
+[class*="listItem_"] [class*="childWrapper_"] {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow: hidden;
+}
+[class*="listItem_"] img,
+[class*="listItem_"] [class*="icon_"],
+[class*="listItem_"] svg {
+    max-width: 100% !important;
+    max-height: 100% !important;
+}
+[class*="listItem_"] img[class*="icon_"] {
+    width: 48px !important;
+    height: 48px !important;
+    object-fit: cover !important;
+}
+
+/* Aktiver/Hover-Pill (der weiße Balken links) wieder an den Rand */
+[class*="listItem_"] [class*="pill_"],
+[class*="listItem_"] [class*="item_"][class*="selected"] {
+    left: 0 !important;
+    margin: 0 !important;
+}
+
+/* Ordner */
+[class*="folderGroup_"],
+[class*="folder_"] {
+    width: 48px !important;
+    margin: 0 auto !important;
+}
+
+/* Trennlinie unter Home */
+[class*="guildSeparator_"] {
+    width: 32px !important;
+    margin: 0 auto 8px auto !important;
+}
+
+/* ---- 3) Allgemeine Ausrichtung ---- */
+/* Eigenes Profil unten links: Avatar nicht verschieben */
+[class*="panels_"] [class*="avatarWrapper_"],
+[class*="panels_"] [class*="avatar_"] {
+    transform: none !important;
+    margin: 0 !important;
+}
+/* Avatare im Chat nicht überlaufen lassen */
+[class*="avatar_"] img {
+    width: var(--avatar-size) !important;
+    height: var(--avatar-size) !important;
+    object-fit: cover;
+}
