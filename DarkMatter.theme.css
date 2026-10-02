@@ -1,146 +1,228 @@
 /**
- * @name Dark Matter (Fixed)
- * @author Tropical#8908, Hammock#3110 (Fixes: Claude)
- * @version 3.0.1
- * @description A cold, dark & frosty theme. Fixes: dicke Scrollbar, kleine/verschobene Server-Icons.
- * @source https://github.com/DiscordStyles/DarkMatter/
+ * @name Dark Matter Mono
+ * @author Julia
+ * @version 4.0.0
+ * @description Schwarz-weiß, clean, smoothe Animationen. Ändert nur Farben & Effekte, nicht das Layout (nichts verrutscht).
 */
 
-@import url('https://DiscordStyles.github.io/DarkMatter/src/base.css');
-
-/* Variables */
 :root {
-    --avatar-size: 32px;
-    --background-image: url('https://i.imgur.com/7SbtKvw.png');
-    --home-image: url('https://i.imgur.com/233d55Y.gif');
-    --background-solid: #161921;
-    --background-solid-dark: #101218;
-    --background-solid-darker: #0c0e12;
-    --accent: 37, 172, 232;
-    --accent-alt: 29, 101, 134;
+    --dm-black: #000000;
+    --dm-bg-0: #050505;
+    --dm-bg-1: #0a0a0a;
+    --dm-bg-2: #101010;
+    --dm-bg-3: #171717;
+    --dm-bg-4: #1f1f1f;
+    --dm-line: rgba(255, 255, 255, 0.08);
+    --dm-text: #f2f2f2;
+    --dm-text-dim: #9a9a9a;
+    --dm-white: #ffffff;
+    --dm-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --dm-fast: 0.18s;
+    --dm-med: 0.3s;
 }
 
-/* ==========================================================
-   FIXES (kommen NACH dem Import, damit sie gewinnen)
-   Selektoren nutzen [class*="..."], weil Discord die Klassen-
-   Namen mit Hash-Suffix bei jedem Update ändert.
-   ========================================================== */
+/* ===== Farben: überschreibt Discords eigene Variablen ===== */
+.theme-dark,
+.theme-darker,
+.theme-light,
+.theme-midnight {
+    /* Hintergründe (neue + alte Variablennamen) */
+    --background-base-lowest: var(--dm-black) !important;
+    --background-base-lower: var(--dm-bg-0) !important;
+    --background-base-low: var(--dm-bg-1) !important;
+    --background-surface-high: var(--dm-bg-2) !important;
+    --background-surface-higher: var(--dm-bg-3) !important;
+    --background-surface-highest: var(--dm-bg-4) !important;
+    --chat-background-default: var(--dm-bg-1) !important;
+    --background-primary: var(--dm-bg-1) !important;
+    --background-secondary: var(--dm-bg-0) !important;
+    --background-secondary-alt: var(--dm-black) !important;
+    --background-tertiary: var(--dm-black) !important;
+    --background-floating: var(--dm-bg-2) !important;
+    --background-accent: var(--dm-bg-4) !important;
+    --background-modifier-hover: rgba(255, 255, 255, 0.05) !important;
+    --background-modifier-selected: rgba(255, 255, 255, 0.10) !important;
+    --background-modifier-active: rgba(255, 255, 255, 0.14) !important;
+    --background-modifier-accent: var(--dm-line) !important;
+    --channeltextarea-background: var(--dm-bg-3) !important;
+    --input-background: var(--dm-bg-3) !important;
 
-/* ---- 1) Scrollbar: dünn statt fett ---- */
+    /* Text */
+    --text-default: var(--dm-text) !important;
+    --text-normal: var(--dm-text) !important;
+    --text-muted: var(--dm-text-dim) !important;
+    --text-secondary: var(--dm-text-dim) !important;
+    --header-primary: var(--dm-white) !important;
+    --header-secondary: var(--dm-text-dim) !important;
+    --interactive-normal: #b5b5b5 !important;
+    --interactive-hover: var(--dm-white) !important;
+    --interactive-active: var(--dm-white) !important;
+    --interactive-muted: #4a4a4a !important;
+    --channels-default: var(--dm-text-dim) !important;
+
+    /* Akzent = weiß statt blau */
+    --brand-500: #ffffff !important;
+    --brand-560: #e6e6e6 !important;
+    --brand-600: #d0d0d0 !important;
+    --brand-experiment: #ffffff !important;
+    --brand-experiment-560: #e6e6e6 !important;
+    --brand-experiment-600: #d0d0d0 !important;
+    --text-link: #ffffff !important;
+    --focus-primary: #ffffff !important;
+    --scrollbar-thin-thumb: rgba(255, 255, 255, 0.22) !important;
+    --scrollbar-thin-track: transparent !important;
+    --scrollbar-auto-thumb: rgba(255, 255, 255, 0.22) !important;
+    --scrollbar-auto-track: transparent !important;
+    --border-subtle: var(--dm-line) !important;
+}
+
+/* Weißer Button-Text auf weißen Buttons lesbar machen */
+[class*="lookFilled_"][class*="colorBrand_"],
+[class*="lookFilled_"][class*="colorBrand_"] * {
+    color: #000 !important;
+}
+
+body {
+    background: var(--dm-black) !important;
+}
+
+/* ===== Scrollbars: dünn & clean ===== */
 ::-webkit-scrollbar {
-    width: 8px !important;
-    height: 8px !important;
+    width: 8px;
+    height: 8px;
 }
-::-webkit-scrollbar-track,
-::-webkit-scrollbar-track-piece {
-    background: transparent !important;
-    border: none !important;
+::-webkit-scrollbar-track {
+    background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-    background: rgba(var(--accent), 0.35) !important;
-    border: 2px solid transparent !important;
-    background-clip: padding-box !important;
-    border-radius: 8px !important;
-    min-height: 40px;
+    background: rgba(255, 255, 255, 0.18);
+    border: 2px solid transparent;
+    background-clip: padding-box;
+    border-radius: 8px;
+    transition: background var(--dm-fast) var(--dm-ease);
 }
 ::-webkit-scrollbar-thumb:hover {
-    background: rgba(var(--accent), 0.7) !important;
-    background-clip: padding-box !important;
-}
-::-webkit-scrollbar-corner {
-    background: transparent !important;
-}
-/* Server-Liste braucht keine sichtbare Scrollbar */
-nav[class*="wrapper_"] [class*="scroller_"]::-webkit-scrollbar,
-[class*="guilds_"] [class*="scroller_"]::-webkit-scrollbar {
-    width: 0 !important;
-    display: none !important;
+    background: rgba(255, 255, 255, 0.4);
+    background-clip: padding-box;
 }
 
-/* ---- 2) Server-Leiste: feste Breite, Icons 48px ---- */
-nav[class*="wrapper_"],
-[class*="guilds_"] {
-    width: 72px !important;
-    min-width: 72px !important;
-    padding: 0 !important;
+/* ===== Smoothe Animationen ===== */
+
+/* Server-Icons: weiches Hochploppen beim Hover */
+[class*="listItem_"] [class*="wrapper_"] {
+    transition: transform var(--dm-med) var(--dm-ease),
+                border-radius var(--dm-med) var(--dm-ease),
+                filter var(--dm-med) var(--dm-ease) !important;
 }
-[class*="guilds_"] [class*="scroller_"],
-nav[class*="wrapper_"] [class*="scroller_"] {
-    width: 72px !important;
-    padding: 0 !important;
-    margin: 0 !important;
+[class*="listItem_"]:hover [class*="wrapper_"] {
+    transform: scale(1.08);
+    filter: brightness(1.12);
+}
+[class*="listItem_"]:active [class*="wrapper_"] {
+    transform: scale(0.95);
 }
 
-/* Jeder Eintrag (Server, Home, Ordner) */
-[class*="listItem_"] {
-    width: 72px !important;
-    height: 48px !important;
-    margin: 0 0 8px 0 !important;
-    padding: 0 !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    position: relative !important;
-}
-[class*="listItem_"] [class*="wrapper_"],
-[class*="listItem_"] [class*="blobContainer_"],
-[class*="listItem_"] [class*="childWrapper_"] {
-    width: 48px !important;
-    height: 48px !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    transform: none !important;
-    top: 0 !important;
-    left: 0 !important;
-}
-[class*="listItem_"] [class*="childWrapper_"] {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    overflow: hidden;
-}
-[class*="listItem_"] img,
-[class*="listItem_"] [class*="icon_"],
-[class*="listItem_"] svg {
-    max-width: 100% !important;
-    max-height: 100% !important;
-}
-[class*="listItem_"] img[class*="icon_"] {
-    width: 48px !important;
-    height: 48px !important;
-    object-fit: cover !important;
+/* Weißer Balken links (Pill) smooth */
+[class*="pill_"] span,
+[class*="pill_"] [class*="item_"] {
+    background: #fff !important;
+    transition: height var(--dm-med) var(--dm-ease),
+                transform var(--dm-med) var(--dm-ease),
+                opacity var(--dm-fast) ease !important;
 }
 
-/* Aktiver/Hover-Pill (der weiße Balken links) wieder an den Rand */
-[class*="listItem_"] [class*="pill_"],
-[class*="listItem_"] [class*="item_"][class*="selected"] {
-    left: 0 !important;
-    margin: 0 !important;
+/* Channels, DMs, Friends-Liste: Hover gleitet rein */
+[class*="interactive_"],
+[class*="channel_"],
+[class*="privateChannel_"],
+[class*="memberInner_"],
+[class*="clickable_"],
+[class*="item_"] {
+    transition: background-color var(--dm-fast) var(--dm-ease),
+                color var(--dm-fast) var(--dm-ease),
+                transform var(--dm-fast) var(--dm-ease),
+                opacity var(--dm-fast) var(--dm-ease);
+}
+[class*="privateChannel_"]:hover,
+[class*="memberInner_"]:hover {
+    transform: translateX(2px);
 }
 
-/* Ordner */
-[class*="folderGroup_"],
-[class*="folder_"] {
-    width: 48px !important;
-    margin: 0 auto !important;
+/* Buttons */
+button,
+[role="button"] {
+    transition: background-color var(--dm-fast) var(--dm-ease),
+                transform var(--dm-fast) var(--dm-ease),
+                box-shadow var(--dm-med) var(--dm-ease),
+                opacity var(--dm-fast) ease !important;
+}
+button:active,
+[role="button"]:active {
+    transform: scale(0.97);
 }
 
-/* Trennlinie unter Home */
-[class*="guildSeparator_"] {
-    width: 32px !important;
-    margin: 0 auto 8px auto !important;
+/* Avatare: weiche Rundung/Zoom */
+[class*="avatar_"] img,
+[class*="avatarWrapper_"] {
+    transition: transform var(--dm-med) var(--dm-ease),
+                filter var(--dm-med) var(--dm-ease);
+}
+[class*="avatar_"]:hover img {
+    filter: brightness(1.1);
 }
 
-/* ---- 3) Allgemeine Ausrichtung ---- */
-/* Eigenes Profil unten links: Avatar nicht verschieben */
-[class*="panels_"] [class*="avatarWrapper_"],
-[class*="panels_"] [class*="avatar_"] {
-    transform: none !important;
-    margin: 0 !important;
+/* Nachrichten: weicher Hover + Einblende-Animation für neue */
+@keyframes dm-fade-in {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
-/* Avatare im Chat nicht überlaufen lassen */
-[class*="avatar_"] img {
-    width: var(--avatar-size) !important;
-    height: var(--avatar-size) !important;
-    object-fit: cover;
+[class*="messageListItem_"] {
+    animation: dm-fade-in 0.35s var(--dm-ease);
+}
+[class*="message_"] {
+    transition: background-color var(--dm-fast) var(--dm-ease) !important;
+}
+
+/* Popouts, Menüs, Modals: sanftes Reinzoomen + dezenter Glow */
+@keyframes dm-pop {
+    from { opacity: 0; transform: scale(0.96) translateY(4px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+[class*="menu_"],
+[class*="popout_"],
+[class*="layer_"] > [class*="root_"],
+[class*="modal_"] {
+    animation: dm-pop 0.22s var(--dm-ease);
+    border: 1px solid var(--dm-line);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7) !important;
+}
+
+/* Eingabefeld: weißer Fokus-Ring */
+[class*="channelTextArea_"] {
+    border: 1px solid var(--dm-line);
+    transition: border-color var(--dm-med) var(--dm-ease),
+                box-shadow var(--dm-med) var(--dm-ease);
+}
+[class*="channelTextArea_"]:focus-within {
+    border-color: rgba(255, 255, 255, 0.45);
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.06);
+}
+
+/* Trennlinien dezent */
+[class*="divider_"] {
+    border-color: var(--dm-line) !important;
+}
+
+/* Auswahl-Farbe */
+::selection {
+    background: #ffffff;
+    color: #000000;
+}
+
+/* Bewegung reduzieren, falls Windows das so eingestellt hat */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
 }
