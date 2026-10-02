@@ -785,11 +785,6 @@ div:has(> div > input:focus),
    v4.7
    ========================================================== */
 
-/* ---- Eingabefeld: Emoji-Button wieder sichtbar (Bild nicht überschreiben) ---- */
-[class*="channelTextArea_"] [class*="buttons_"] *,
-[class*="channelTextArea_"] button {
-    background-image: revert-layer;
-}
 
 /* ---- Weiße Buttons: Schrift immer schwarz (Profil-Popout, Dialoge, ...) ---- */
 .theme-dark, .theme-darker, .theme-light, .theme-midnight {
