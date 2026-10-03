@@ -1,7 +1,7 @@
 /**
- * @name Dark Matter Mono v5.1
+ * @name Dark Matter Mono v5.2
  * @author Julia
- * @version 5.1.0
+ * @version 5.2.0
  * @description Schwarz-weiß, clean, smooth. Komplett neu: arbeitet über Discords Farbvariablen, fasst das Layout nicht an.
 */
 
@@ -17,26 +17,26 @@
    ========================================================== */
 
 :root {
-    /* ---- Graphit-Palette (weiches Schwarz mit Ebenen) ----
-       Für reines Schwarz: --dm-black: #000; --dm-bg-0: #050505; --dm-bg-1: #0a0a0a; ... */
-    --dm-black: #09090b;
-    --dm-bg-0: #0c0c0e;
-    --dm-bg-1: #111113;
-    --dm-bg-2: #17171a;
-    --dm-bg-3: #1d1d20;
-    --dm-bg-4: #252528;
-    --dm-grey: #3f3f46;
-    --dm-grey-hover: #52525b;
-    --dm-grey-active: #33333a;
-    --dm-line: rgba(255, 255, 255, 0.07);
-    --dm-line-strong: rgba(255, 255, 255, 0.14);
-    --dm-text: #ededef;
-    --dm-text-dim: #a1a1aa;
+    /* ---- Reines Schwarz ----
+       Für weicheres Graphit: #09090b / #0c0c0e / #111113 / #17171a / #1d1d20 / #252528 */
+    --dm-black: #000000;
+    --dm-bg-0: #050505;
+    --dm-bg-1: #0a0a0a;
+    --dm-bg-2: #111111;
+    --dm-bg-3: #181818;
+    --dm-bg-4: #202020;
+    --dm-grey: #3a3a3a;
+    --dm-grey-hover: #484848;
+    --dm-grey-active: #2e2e2e;
+    --dm-line: rgba(255, 255, 255, 0.08);
+    --dm-line-strong: rgba(255, 255, 255, 0.16);
+    --dm-text: #f2f2f2;
+    --dm-text-dim: #9a9a9a;
     --dm-ease: cubic-bezier(0.22, 1, 0.36, 1);
     --dm-fast: 0.16s;
     --dm-med: 0.28s;
-    /* Film-Korn: 0 = aus */
-    --dm-grain-opacity: 0.035;
+    /* Film-Korn: 0 = aus, 0.035 = an */
+    --dm-grain-opacity: 0;
 }
 
 /* ==========================================================
@@ -464,12 +464,6 @@ div:has(> div > input:focus) {
     background-color: rgba(255, 255, 255, 0.12) !important;
     box-shadow: inset 0 0 0 1px var(--dm-line-strong);
 }
-/* Aktiv (Kamera/Screen an): weiß mit schwarzem Icon */
-[class*="panels_"] [class*="actionButtons_"] button[class*="buttonActive"],
-[class*="panels_"] [class*="actionButtons_"] button[aria-checked="true"] {
-    background-color: #ffffff !important;
-    color: #000000 !important;
-}
 
 /* Call-Ansicht (Video-Kacheln): weißer Rahmen beim Sprechen statt grün */
 [class*="tile_"] [class*="border_"][class*="speaking"],
@@ -481,11 +475,78 @@ div:has(> div > input:focus) {
 [class*="tile_"] {
     border-radius: 14px !important;
 }
-/* Steuerleiste im Call: runde Buttons, aktiv = weiß */
-[class*="callContainer_"] button[class*="active"],
-[class*="callContainer_"] [role="switch"][aria-checked="true"] {
-    background-color: #ffffff !important;
-    color: #000000 !important;
+
+/* Grüne Buttons direkt (Beitreten / Annehmen / Anrufen) -> grau */
+button[class*="colorGreen"],
+button[class*="colorPositive"],
+button[class*="Green_"],
+button[aria-label="Join Call"],
+button[aria-label="Join Video Call"],
+button[aria-label="Join Voice"],
+button[aria-label="Accept"],
+button[aria-label="Start Voice Call"],
+button[aria-label="Start Video Call"],
+button[aria-label="Anruf beitreten"],
+button[aria-label="Annehmen"] {
+    background-color: var(--dm-grey) !important;
+    color: #ffffff !important;
+    border-radius: 14px !important;
+    box-shadow: inset 0 0 0 1px var(--dm-line-strong) !important;
+    transition: background-color var(--dm-fast) var(--dm-ease),
+                box-shadow var(--dm-fast) var(--dm-ease) !important;
+}
+button[class*="colorGreen"]:hover,
+button[class*="colorPositive"]:hover,
+button[class*="Green_"]:hover,
+button[aria-label="Join Call"]:hover,
+button[aria-label="Join Video Call"]:hover,
+button[aria-label="Join Voice"]:hover,
+button[aria-label="Accept"]:hover,
+button[aria-label="Start Voice Call"]:hover,
+button[aria-label="Start Video Call"]:hover,
+button[aria-label="Anruf beitreten"]:hover,
+button[aria-label="Annehmen"]:hover {
+    background-color: var(--dm-grey-hover) !important;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35), 0 0 18px rgba(255, 255, 255, 0.12) !important;
+}
+button[class*="colorGreen"] svg,
+button[class*="colorPositive"] svg,
+button[aria-label="Join Call"] svg,
+button[aria-label="Join Video Call"] svg,
+button[aria-label="Accept"] svg {
+    color: #ffffff !important;
+}
+
+/* Steuer-Buttons IM Call (Mikro, Kamera, Screen, ...): Glas-Kacheln
+   Nur Farbe/Rand/Rundung -> Icons bleiben, nichts wird weiß gefüllt */
+[class*="callContainer_"] [class*="controlButton_"],
+[class*="callContainer_"] [class*="centerButton_"],
+[class*="callContainer_"] [class*="attachedButton_"],
+[class*="callContainer_"] [class*="contextMenuNub_"] {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+    box-shadow: inset 0 0 0 1px var(--dm-line-strong) !important;
+    backdrop-filter: blur(12px);
+    transition: background-color var(--dm-fast) var(--dm-ease),
+                box-shadow var(--dm-fast) var(--dm-ease),
+                transform var(--dm-fast) var(--dm-ease) !important;
+}
+[class*="callContainer_"] [class*="controlButton_"]:hover,
+[class*="callContainer_"] [class*="centerButton_"]:hover,
+[class*="callContainer_"] [class*="attachedButton_"]:hover,
+[class*="callContainer_"] [class*="contextMenuNub_"]:hover {
+    background-color: rgba(255, 255, 255, 0.16) !important;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35) !important;
+}
+[class*="callContainer_"] [class*="controlButton_"]:active,
+[class*="callContainer_"] [class*="centerButton_"]:active {
+    transform: scale(0.95);
+}
+/* Auflegen bleibt rot, aber schlicht */
+[class*="callContainer_"] [aria-label="Disconnect"],
+[class*="callContainer_"] [aria-label="Leave Call"],
+[class*="callContainer_"] [aria-label="Trennen"] {
+    background-color: #d83c3e !important;
+    box-shadow: none !important;
 }
 
 /* ==========================================================
