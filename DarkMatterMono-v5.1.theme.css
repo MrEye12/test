@@ -1,7 +1,7 @@
 /**
- * @name Dark Matter Mono v5.0
+ * @name Dark Matter Mono v5.1
  * @author Julia
- * @version 5.0.0
+ * @version 5.1.0
  * @description Schwarz-weiß, clean, smooth. Komplett neu: arbeitet über Discords Farbvariablen, fasst das Layout nicht an.
 */
 
@@ -17,22 +17,26 @@
    ========================================================== */
 
 :root {
-    --dm-black: #000000;
-    --dm-bg-0: #050505;
-    --dm-bg-1: #0a0a0a;
-    --dm-bg-2: #111111;
-    --dm-bg-3: #181818;
-    --dm-bg-4: #202020;
-    --dm-grey: #3a3a3a;
-    --dm-grey-hover: #484848;
-    --dm-grey-active: #2e2e2e;
-    --dm-line: rgba(255, 255, 255, 0.08);
-    --dm-line-strong: rgba(255, 255, 255, 0.16);
-    --dm-text: #f2f2f2;
-    --dm-text-dim: #9a9a9a;
+    /* ---- Graphit-Palette (weiches Schwarz mit Ebenen) ----
+       Für reines Schwarz: --dm-black: #000; --dm-bg-0: #050505; --dm-bg-1: #0a0a0a; ... */
+    --dm-black: #09090b;
+    --dm-bg-0: #0c0c0e;
+    --dm-bg-1: #111113;
+    --dm-bg-2: #17171a;
+    --dm-bg-3: #1d1d20;
+    --dm-bg-4: #252528;
+    --dm-grey: #3f3f46;
+    --dm-grey-hover: #52525b;
+    --dm-grey-active: #33333a;
+    --dm-line: rgba(255, 255, 255, 0.07);
+    --dm-line-strong: rgba(255, 255, 255, 0.14);
+    --dm-text: #ededef;
+    --dm-text-dim: #a1a1aa;
     --dm-ease: cubic-bezier(0.22, 1, 0.36, 1);
     --dm-fast: 0.16s;
     --dm-med: 0.28s;
+    /* Film-Korn: 0 = aus */
+    --dm-grain-opacity: 0.035;
 }
 
 /* ==========================================================
@@ -424,7 +428,109 @@ div:has(> div > input:focus) {
 }
 
 /* ==========================================================
-   10) Wer in Windows "Animationen aus" hat, bekommt keine
+   10) CALLS — kein Grün mehr
+   ========================================================== */
+.theme-dark,
+.theme-darker,
+.theme-midnight,
+.theme-light {
+    /* Grüne Buttons (Beitreten, Annehmen, ...) -> Grau mit weißer Schrift */
+    --button-positive-background: var(--dm-grey) !important;
+    --button-positive-background-hover: var(--dm-grey-hover) !important;
+    --button-positive-background-active: var(--dm-grey-active) !important;
+    --button-positive-border: transparent !important;
+    --green-new-46: var(--dm-grey) !important;
+    /* Grüne Texte (z. B. "Voice Connected") -> weiß */
+    --text-positive: #ffffff !important;
+}
+
+/* "Voice Connected" + Signal-Icon weiß */
+[class*="rtcConnectionStatus"],
+[class*="rtcConnectionStatus"] *,
+[class*="rtcConnectionStatus"] svg {
+    color: #ffffff !important;
+}
+
+/* Call-Panel unten links: Buttons als feine Kacheln */
+[class*="panels_"] [class*="actionButtons_"] button {
+    background-color: rgba(255, 255, 255, 0.06) !important;
+    color: #ededef !important;
+    border-radius: 10px !important;
+    box-shadow: inset 0 0 0 1px var(--dm-line);
+    transition: background-color var(--dm-fast) var(--dm-ease),
+                box-shadow var(--dm-fast) var(--dm-ease);
+}
+[class*="panels_"] [class*="actionButtons_"] button:hover {
+    background-color: rgba(255, 255, 255, 0.12) !important;
+    box-shadow: inset 0 0 0 1px var(--dm-line-strong);
+}
+/* Aktiv (Kamera/Screen an): weiß mit schwarzem Icon */
+[class*="panels_"] [class*="actionButtons_"] button[class*="buttonActive"],
+[class*="panels_"] [class*="actionButtons_"] button[aria-checked="true"] {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+}
+
+/* Call-Ansicht (Video-Kacheln): weißer Rahmen beim Sprechen statt grün */
+[class*="tile_"] [class*="border_"][class*="speaking"],
+[class*="tile_"][class*="speaking"] [class*="border_"] {
+    box-shadow: inset 0 0 0 2px #ffffff, 0 0 18px rgba(255, 255, 255, 0.25) !important;
+    border-color: #ffffff !important;
+}
+/* Call-Ansicht: Kacheln rund mit feinem Rand */
+[class*="tile_"] {
+    border-radius: 14px !important;
+}
+/* Steuerleiste im Call: runde Buttons, aktiv = weiß */
+[class*="callContainer_"] button[class*="active"],
+[class*="callContainer_"] [role="switch"][aria-checked="true"] {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+}
+
+/* ==========================================================
+   11) EXTRAS
+   ========================================================== */
+
+/* Feines Film-Korn über allem (klickt nichts weg) */
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 2147483647;
+    opacity: var(--dm-grain-opacity);
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+/* Server-Icons: weicher Lichtschein beim Hover */
+[class*="listItem_"]:hover [class*="wrapper_"] {
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.16));
+}
+
+/* Profil-Panel unten links als Karte */
+section[class*="panels_"] {
+    outline: 1px solid var(--dm-line-strong);
+    outline-offset: -1px;
+    border-radius: 14px;
+}
+
+/* Member-Liste: Avatar hebt sich beim Hover */
+[class*="memberInner_"] [class*="avatar_"] {
+    transition: transform var(--dm-med) var(--dm-ease);
+}
+[class*="memberInner_"]:hover [class*="avatar_"] {
+    transform: scale(1.06);
+}
+
+/* Ungelesen-Punkte & Tipp-Punkte weiß */
+[class*="unread_"][class*="unreadImportant"],
+[class*="typingDots_"] [class*="dot_"] {
+    background-color: #ffffff !important;
+}
+
+/* ==========================================================
+   12) Wer in Windows "Animationen aus" hat, bekommt keine
    ========================================================== */
 @media (prefers-reduced-motion: reduce) {
     *,
