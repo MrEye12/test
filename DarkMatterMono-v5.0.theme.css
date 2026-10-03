@@ -1,0 +1,436 @@
+/**
+ * @name Dark Matter Mono v5.0
+ * @author Julia
+ * @version 5.0.0
+ * @description Schwarz-weiß, clean, smooth. Komplett neu: arbeitet über Discords Farbvariablen, fasst das Layout nicht an.
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* ==========================================================
+   REGELN, DIE DIESES THEME EINHÄLT (damit nichts mehr buggt)
+   - Markenfarbe ist dunkelgrau, NICHT weiß -> keine weißen Balken,
+     Buttons bleiben lesbar (weißer Text auf grau).
+   - Nur background-color, nie "background:" -> Bilder/Emojis bleiben.
+   - Keine Animationen/Smooth-Scroll an Nachrichten -> kein Scroll-Bug.
+   - Keine Größen/Abstände/Positionen ändern -> nichts verrutscht.
+   ========================================================== */
+
+:root {
+    --dm-black: #000000;
+    --dm-bg-0: #050505;
+    --dm-bg-1: #0a0a0a;
+    --dm-bg-2: #111111;
+    --dm-bg-3: #181818;
+    --dm-bg-4: #202020;
+    --dm-grey: #3a3a3a;
+    --dm-grey-hover: #484848;
+    --dm-grey-active: #2e2e2e;
+    --dm-line: rgba(255, 255, 255, 0.08);
+    --dm-line-strong: rgba(255, 255, 255, 0.16);
+    --dm-text: #f2f2f2;
+    --dm-text-dim: #9a9a9a;
+    --dm-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --dm-fast: 0.16s;
+    --dm-med: 0.28s;
+}
+
+/* ==========================================================
+   1) FARBEN — nur Variablen
+   ========================================================== */
+.theme-dark,
+.theme-darker,
+.theme-midnight,
+.theme-light {
+    /* Hintergründe */
+    --background-base-lowest: var(--dm-black) !important;
+    --background-base-lower: var(--dm-bg-0) !important;
+    --background-base-low: var(--dm-bg-1) !important;
+    --background-surface-high: var(--dm-bg-2) !important;
+    --background-surface-higher: var(--dm-bg-3) !important;
+    --background-surface-highest: var(--dm-bg-4) !important;
+    --chat-background: var(--dm-bg-1) !important;
+    --chat-background-default: var(--dm-bg-1) !important;
+    --background-primary: var(--dm-bg-1) !important;
+    --background-secondary: var(--dm-bg-0) !important;
+    --background-secondary-alt: var(--dm-black) !important;
+    --background-tertiary: var(--dm-black) !important;
+    --background-floating: var(--dm-bg-2) !important;
+    --background-nested-floating: var(--dm-bg-3) !important;
+    --background-accent: var(--dm-bg-4) !important;
+    --channeltextarea-background: var(--dm-bg-2) !important;
+    --input-background: var(--dm-bg-3) !important;
+    --modal-background: var(--dm-bg-1) !important;
+    --modal-footer-background: var(--dm-bg-0) !important;
+    --card-primary-bg: var(--dm-bg-2) !important;
+
+    /* Hover / Auswahl: heller Schleier, nie voll weiß */
+    --background-modifier-hover: rgba(255, 255, 255, 0.05) !important;
+    --background-modifier-selected: rgba(255, 255, 255, 0.10) !important;
+    --background-modifier-active: rgba(255, 255, 255, 0.13) !important;
+    --background-modifier-accent: var(--dm-line) !important;
+    --background-mod-subtle: rgba(255, 255, 255, 0.05) !important;
+    --background-mod-normal: rgba(255, 255, 255, 0.08) !important;
+    --background-mod-muted: rgba(255, 255, 255, 0.10) !important;
+    --background-mod-strong: rgba(255, 255, 255, 0.14) !important;
+    --background-message-hover: rgba(255, 255, 255, 0.025) !important;
+    --background-mentioned: rgba(255, 255, 255, 0.05) !important;
+    --background-mentioned-hover: rgba(255, 255, 255, 0.07) !important;
+
+    /* Text & Icons */
+    --text-default: var(--dm-text) !important;
+    --text-normal: var(--dm-text) !important;
+    --text-strong: #ffffff !important;
+    --text-muted: var(--dm-text-dim) !important;
+    --text-secondary: var(--dm-text-dim) !important;
+    --header-primary: #ffffff !important;
+    --header-secondary: var(--dm-text-dim) !important;
+    --channels-default: var(--dm-text-dim) !important;
+    --interactive-normal: #bdbdbd !important;
+    --interactive-hover: #ffffff !important;
+    --interactive-active: #ffffff !important;
+    --interactive-muted: #5a5a5a !important;
+    --interactive-text-default: #bdbdbd !important;
+    --interactive-text-hover: #ffffff !important;
+    --interactive-text-active: #ffffff !important;
+    --icon-default: #bdbdbd !important;
+    --icon-strong: #ffffff !important;
+    --icon-muted: #7a7a7a !important;
+
+    /* Markenfarbe = neutrales Grau (statt Blau, aber NICHT weiß) */
+    --brand-260: #6a6a6a !important;
+    --brand-300: #5e5e5e !important;
+    --brand-330: #565656 !important;
+    --brand-345: #525252 !important;
+    --brand-360: #4e4e4e !important;
+    --brand-400: #4a4a4a !important;
+    --brand-430: #444444 !important;
+    --brand-460: #404040 !important;
+    --brand-500: var(--dm-grey) !important;
+    --brand-530: #363636 !important;
+    --brand-560: var(--dm-grey-hover) !important;
+    --brand-600: var(--dm-grey-active) !important;
+    --brand-630: #2a2a2a !important;
+    --brand-660: #262626 !important;
+    --brand-700: #222222 !important;
+    --brand-experiment: var(--dm-grey) !important;
+    --brand-experiment-560: var(--dm-grey-hover) !important;
+    --brand-experiment-600: var(--dm-grey-active) !important;
+    --bg-brand: var(--dm-grey) !important;
+    --button-filled-brand-background: var(--dm-grey) !important;
+    --button-filled-brand-background-hover: var(--dm-grey-hover) !important;
+    --button-filled-brand-background-active: var(--dm-grey-active) !important;
+    --button-filled-brand-text: #ffffff !important;
+    --button-filled-brand-text-hover: #ffffff !important;
+    --button-filled-brand-text-active: #ffffff !important;
+    --control-brand-foreground: #ffffff !important;
+    --control-brand-foreground-new: #ffffff !important;
+
+    /* Fokus-Ringe weiß statt blau */
+    --focus-primary: rgba(255, 255, 255, 0.6) !important;
+    --border-focus: rgba(255, 255, 255, 0.6) !important;
+    --input-border-focus: rgba(255, 255, 255, 0.6) !important;
+
+    /* Linien */
+    --border-subtle: var(--dm-line) !important;
+    --border-faint: var(--dm-line) !important;
+    --border-normal: var(--dm-line-strong) !important;
+
+    /* Links & Erwähnungen */
+    --text-link: #ffffff !important;
+    --mention-foreground: #ffffff !important;
+    --mention-background: rgba(255, 255, 255, 0.12) !important;
+
+    /* Scrollbars */
+    --scrollbar-thin-thumb: rgba(255, 255, 255, 0.18) !important;
+    --scrollbar-thin-track: transparent !important;
+    --scrollbar-auto-thumb: rgba(255, 255, 255, 0.18) !important;
+    --scrollbar-auto-track: transparent !important;
+    --scrollbar-auto-scrollbar-color-thumb: rgba(255, 255, 255, 0.18) !important;
+    --scrollbar-auto-scrollbar-color-track: transparent !important;
+
+    /* Schrift */
+    --font-primary: 'Inter', 'gg sans', 'Segoe UI', sans-serif !important;
+    --font-display: 'Inter', 'gg sans', 'Segoe UI', sans-serif !important;
+}
+
+body {
+    background-color: var(--dm-black) !important;
+    -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+input,
+textarea,
+[contenteditable="true"] {
+    caret-color: #ffffff;
+}
+
+/* ==========================================================
+   2) SCROLLBARS — dünn
+   ========================================================== */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-corner {
+    background-color: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.16);
+    background-clip: padding-box;
+    border: 2px solid transparent;
+    border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, 0.38);
+}
+
+/* ==========================================================
+   3) SERVER-LEISTE
+   ========================================================== */
+
+/* Home-Button (Discord-Logo) — per fester ID, trifft nur ihn */
+[data-list-item-id="guildsnav___home"] [class*="childWrapper_"] {
+    background-color: var(--dm-bg-3) !important;
+    color: #ffffff !important;
+    box-shadow: inset 0 0 0 1px var(--dm-line-strong);
+    transition: background-color var(--dm-med) var(--dm-ease),
+                color var(--dm-med) var(--dm-ease),
+                box-shadow var(--dm-med) var(--dm-ease);
+}
+[data-list-item-id="guildsnav___home"]:hover [class*="childWrapper_"],
+[data-list-item-id="guildsnav___home"] [class*="childWrapper_"][class*="selected"] {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.28);
+}
+
+/* Etwas Luft über dem Home-Button */
+[class*="listItem_"]:has([data-list-item-id="guildsnav___home"]) {
+    margin-top: 8px;
+}
+
+/* Server-Icons: sanftes Anheben beim Hover */
+[class*="listItem_"] [class*="wrapper_"] {
+    transition: transform var(--dm-med) var(--dm-ease);
+}
+[class*="listItem_"]:hover [class*="wrapper_"] {
+    transform: translateY(-1px) scale(1.05);
+}
+[class*="listItem_"]:active [class*="wrapper_"] {
+    transform: scale(0.96);
+}
+
+/* Weißer Balken links */
+[class*="listItem_"] [class*="pill_"] [class*="item_"] {
+    background-color: #ffffff !important;
+}
+
+/* Benachrichtigungs-Zahlen: weiß mit schwarzer Zahl */
+[class*="numberBadge_"] {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    font-weight: 700;
+}
+
+/* ==========================================================
+   4) DÜNNER RAHMEN um Channel-Leiste & Chat
+   outline statt border -> ändert kein Layout
+   ========================================================== */
+div[class*="sidebar_"],
+section[class*="chat_"] {
+    outline: 1px solid var(--dm-line-strong);
+    outline-offset: -1px;
+    border-radius: 14px;
+}
+
+/* Ausgewählter Channel: feiner weißer Strich links */
+[class*="modeSelected_"] {
+    box-shadow: inset 2px 0 0 #ffffff;
+}
+
+/* ==========================================================
+   5) EINGABEFELD — runder Rahmen, Lichtstrahl beim Tippen
+   ========================================================== */
+@property --dm-angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+}
+@keyframes dm-spin {
+    to { --dm-angle: 360deg; }
+}
+
+/* Der äußere Container hat keine Bilder -> hier ist "background" ok */
+[class*="channelTextArea_"] {
+    border: 1px solid transparent !important;
+    border-radius: 14px !important;
+    background:
+        linear-gradient(var(--dm-bg-2), var(--dm-bg-2)) padding-box,
+        linear-gradient(var(--dm-line-strong), var(--dm-line-strong)) border-box !important;
+    transition: box-shadow var(--dm-med) var(--dm-ease);
+}
+[class*="channelTextArea_"]:focus-within {
+    background:
+        linear-gradient(var(--dm-bg-2), var(--dm-bg-2)) padding-box,
+        conic-gradient(from var(--dm-angle),
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 1) 10%,
+            rgba(255, 255, 255, 0) 30%,
+            rgba(255, 255, 255, 0) 100%) border-box,
+        linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)) border-box !important;
+    animation: dm-spin 3.5s linear infinite;
+    box-shadow: 0 0 24px rgba(255, 255, 255, 0.06);
+}
+/* Innere Ebenen durchsichtig (nur Farbe, nicht die Bilder der Buttons) */
+[class*="channelTextArea_"] [class*="scrollableContainer_"] {
+    background-color: transparent !important;
+}
+
+/* ==========================================================
+   6) EMOJI / GIF / STICKER PICKER
+   ========================================================== */
+#gif-picker-tab,
+#sticker-picker-tab,
+#emoji-picker-tab,
+#soundboard-picker-tab {
+    border-radius: 999px !important;
+    transition: background-color var(--dm-fast) var(--dm-ease),
+                color var(--dm-fast) var(--dm-ease);
+}
+#gif-picker-tab[aria-selected="true"],
+#sticker-picker-tab[aria-selected="true"],
+#emoji-picker-tab[aria-selected="true"],
+#soundboard-picker-tab[aria-selected="true"] {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+}
+
+/* Suchfelder: Fokus-Rand weiß */
+div:has(> input:focus),
+div:has(> div > input:focus) {
+    border-color: rgba(255, 255, 255, 0.55) !important;
+    outline-color: rgba(255, 255, 255, 0.55) !important;
+    box-shadow: none !important;
+}
+
+/* ==========================================================
+   7) NACHRICHTEN
+   ========================================================== */
+
+/* Links erkennbar: unterstrichen (nur in Nachrichten/Embeds) */
+[class*="markup_"] a,
+[class*="embed"] a {
+    color: #ffffff !important;
+    text-decoration: underline !important;
+    text-decoration-color: rgba(255, 255, 255, 0.35) !important;
+    text-decoration-thickness: 1px !important;
+    text-underline-offset: 3px;
+    transition: text-decoration-color var(--dm-fast) var(--dm-ease);
+}
+[class*="markup_"] a:hover,
+[class*="embed"] a:hover {
+    text-decoration-color: #ffffff !important;
+}
+
+/* @Erwähnung: Hover invertiert */
+.mention {
+    border-radius: 5px;
+    transition: background-color var(--dm-fast) var(--dm-ease),
+                color var(--dm-fast) var(--dm-ease);
+}
+.mention:hover {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+}
+
+/* Erwähnt-Streifen links weiß statt gelb */
+[class*="mentioned_"]::before {
+    background-color: #ffffff !important;
+}
+
+/* Reaktionen als Pillen */
+[class*="reaction_"] {
+    border-radius: 999px !important;
+    transition: transform var(--dm-fast) var(--dm-ease),
+                background-color var(--dm-fast) var(--dm-ease);
+}
+[class*="reaction_"]:hover {
+    transform: translateY(-1px);
+}
+[class*="reactionMe_"] {
+    background-color: rgba(255, 255, 255, 0.14) !important;
+    border-color: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* Bilder & Embeds: runde Ecken */
+[class*="imageWrapper_"] {
+    border-radius: 10px !important;
+}
+
+/* Sprechen im Voice: pulsierender weißer Ring */
+@keyframes dm-speak {
+    0%, 100% { box-shadow: 0 0 0 2px #ffffff, 0 0 8px rgba(255, 255, 255, 0.4); }
+    50%      { box-shadow: 0 0 0 2px #ffffff, 0 0 18px rgba(255, 255, 255, 0.8); }
+}
+[class*="avatarSpeaking_"] {
+    border-radius: 50%;
+    animation: dm-speak 1.2s ease-in-out infinite;
+}
+
+/* ==========================================================
+   8) MENÜS & TOOLTIPS — Glas-Look + sanftes Aufploppen
+   ========================================================== */
+@keyframes dm-pop {
+    from { opacity: 0; transform: scale(0.97); }
+    to   { opacity: 1; transform: scale(1); }
+}
+[class*="menu_"][role="menu"] {
+    background-color: rgba(14, 14, 14, 0.82) !important;
+    backdrop-filter: blur(16px) saturate(1.2);
+    border: 1px solid var(--dm-line-strong);
+    border-radius: 10px !important;
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.7) !important;
+    animation: dm-pop 0.18s var(--dm-ease);
+}
+[class*="menu_"][role="menu"] [role="menuitem"] {
+    border-radius: 6px;
+    transition: background-color var(--dm-fast) var(--dm-ease),
+                color var(--dm-fast) var(--dm-ease);
+}
+[class*="menu_"][role="menu"] [role="menuitem"][class*="focused"] {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+}
+[class*="menu_"][role="menu"] [role="menuitem"][class*="focused"] * {
+    color: #000000 !important;
+}
+
+/* ==========================================================
+   9) KLEINE SMOOTHE ÜBERGÄNGE (nur Farben, keine Bewegung)
+   ========================================================== */
+[class*="privateChannel_"],
+[class*="containerDefault_"] [class*="link_"],
+[class*="memberInner_"],
+[class*="channelTextArea_"] button {
+    transition: background-color var(--dm-fast) var(--dm-ease),
+                color var(--dm-fast) var(--dm-ease);
+}
+
+/* ==========================================================
+   10) Wer in Windows "Animationen aus" hat, bekommt keine
+   ========================================================== */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+}
